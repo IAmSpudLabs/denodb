@@ -1,5 +1,7 @@
 <img src="./design/logo.png" height="150" />
 
+This is a fork of eveningkid's [denodb](https://github.com/eveningkid/denodb) which appears to be abandoned and no longer functional due to dependency issues. I've updated the dependencies and am working on adding in some of the outstanding Pull Requests in the original repo.
+
 # DenoDB
 
 - 🗣Supports PostgreSQL, MySQL, MariaDB, SQLite and MongoDB
