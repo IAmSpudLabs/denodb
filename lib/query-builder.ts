@@ -36,6 +36,11 @@ export type WhereInClause = {
   possibleValues: FieldValue[];
 };
 
+export type WhereNullClause = {
+  field: string;
+  notNull: boolean;
+};
+
 export type OrderByClauses = {
   [field: string]: OrderDirection;
 };
@@ -49,6 +54,7 @@ export type QueryDescription = {
   groupBy?: string;
   wheres?: WhereClause[];
   whereIn?: WhereInClause;
+  whereNulls?: WhereNullClause[];
   joins?: JoinClause[];
   leftOuterJoins?: JoinClause[];
   leftJoins?: JoinClause[];
@@ -200,6 +206,38 @@ export class QueryBuilder {
     }
 
     return this;
+  }
+
+  whereNull(
+    field: string,
+    notNull = false,
+  ) {
+    if (!this._query.whereNulls) {
+      this._query.whereNulls = [];
+    }
+
+    const existingWhereForFieldIndex = this._query.whereNulls.findIndex((
+      where,
+    ) => where.field === field);
+
+    const whereNullClause: WhereNullClause = {
+      field,
+      notNull: notNull,
+    };
+
+    if (existingWhereForFieldIndex === -1) {
+      this._query.whereNulls.push(whereNullClause);
+    } else {
+      this._query.whereNulls[existingWhereForFieldIndex] = whereNullClause;
+    }
+
+    return this;
+  }
+
+  whereNotNull(
+    field: string,
+  ) {
+    return this.whereNull(field, true);
   }
 
   update(values: Values) {

@@ -63,7 +63,7 @@ export type ModelEventListeners = {
 
 /** Model that can be used with a `Database`. */
 export class Model {
-  [attribute: string]: FieldValue | Function
+  [attribute: string]: FieldValue | Function;
 
   /** Table name as it should be saved in the database. */
   static table = "";
@@ -633,6 +633,32 @@ export class Model {
       }
     }
 
+    return this;
+  }
+
+  /** Add a `where` clause to your query that gets a record if field is null
+   *
+   *     await Flight.whereNull("id").get();
+   */
+  static whereNull<T extends ModelSchema>(
+    this: T,
+    field: string,
+  ) {
+    this._currentQuery.whereNull(this.formatFieldToDatabase(field) as string);
+    return this;
+  }
+
+  /** Add a `where` clause to your query that gets a record if field is not null
+   *
+   *     await Flight.whereNotNull("id").get();
+   */
+  static whereNotNull<T extends ModelSchema>(
+    this: T,
+    field: string,
+  ) {
+    this._currentQuery.whereNotNull(
+      this.formatFieldToDatabase(field) as string,
+    );
     return this;
   }
 
