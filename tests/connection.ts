@@ -1,14 +1,12 @@
-import { config } from "https://deno.land/x/dotenv/mod.ts";
+import "https://deno.land/std@0.155.0/dotenv/load.ts";
 import { Database } from "../mod.ts";
-
-const env = config();
 
 const defaultMySQLOptions = {
   database: "test",
-  host: "127.0.0.1",
-  username: env.DB_USER,
-  password: env.DB_PASS,
-  port: Number(env.DB_PORT),
+	host: Deno.env.get('MYSQL_HOST') ?? '',
+	username: Deno.env.get('MYSQL_USER') ?? '',
+	password: Deno.env.get('MYSQL_PASSWORD') ?? '',
+	port: parseInt(Deno.env.get('MYSQL_PORT') ?? '3306'),
 };
 
 const defaultSQLiteOptions = {
