@@ -17,6 +17,10 @@ export function addFieldToSchema(
 
   let instruction;
 
+	if (typeof type !== 'string') {
+		throw new TypeError(`Invalid type passed for field type. Expected string but found ${typeof fieldOptions.type}.`, );
+	}
+
   if (typeof fieldOptions.type === "object") {
     if (fieldOptions.type.relationship) {
       const relationshipPKName = fieldOptions.type.relationship.model
